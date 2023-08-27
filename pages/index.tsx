@@ -2,22 +2,18 @@ import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { add } from '../state/reducers'
 import Header from '../components/header'
-import { Accounts } from '../state/stateTypes'
 
 import axios from 'axios'
-import Card from '../components/card'
+import Paginator from '../components/pagination'
+import { Account } from '../state/stateTypes'
 
 export default function home() {
-  const accounts: [] = useSelector((state: []) => state)
+  const accounts = useSelector((state: Account[]) => state)
   const dispatch = useDispatch()
   useEffect(() => {
     axios.get(process.env.NEXT_PUBLIC_API)
       .then((response) => dispatch(add(response?.data?.cuentas)))
   }, [])
-
-  const validAccounts = accounts.filter((account: Accounts) => (account.tipo_letras === 'CC' || account.tipo_letras === 'CA') && (account.moneda === '$' || account.moneda === 'u$s') && account.n.length > 3)
-
-  console.log(validAccounts)
 
   return (
     <>
@@ -25,9 +21,12 @@ export default function home() {
       <main className='accounts'>
         <p className='accounts__description'>Consulta de saldo</p>
         <h1 className='accounts__title'>Seleccione la cuenta a consultar</h1>
-        <div className='accounts__list'>
-          {validAccounts.map((account: Accounts) => <Card accountType={account.tipo_letras} number={account.n} />)}
-        </div>
+        {accounts.length > 0 ? (
+          <Paginator accounts={accounts} />
+        ) : (
+          <span className="loader"></span>
+        )
+        }
       </main>
       <style jsx>
         {`
@@ -39,13 +38,26 @@ export default function home() {
           text-align: center;
           margin: 0 0 30px
         }
-        .accounts__list {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 15px;
-          max-width: 800px;
+        .loader {
+          width: 48px;
+          height: 48px;
+          border: 5px solid #FFF;
+          border-bottom-color: #54b948;
+          border-radius: 50%;
+          display: block;
           margin: auto;
+          box-sizing: border-box;
+          animation: rotation 1s linear infinite;
         }
+
+        @keyframes rotation {
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
+        } 
         `}
       </style>
     </>
