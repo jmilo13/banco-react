@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { add } from '../state/reducers'
 import Header from '../components/header'
@@ -6,13 +6,20 @@ import Header from '../components/header'
 import axios from 'axios'
 import Paginator from '../components/pagination'
 import { Account } from '../state/stateTypes'
+import { getPageItems } from '../utils/functions'
 
 export default function home() {
-  const accounts = useSelector((state: Account[]) => state)
   const dispatch = useDispatch()
+  const allPages = useSelector((state: []) => state)
+
   useEffect(() => {
     axios.get(process.env.NEXT_PUBLIC_API)
-      .then((response) => dispatch(add(response?.data?.cuentas)))
+      .then((response) => {
+        const accounts = response?.data?.cuentas
+        const validAccounts = accounts.filter((account: Account) => (account.tipo_letras === 'CC' || account.tipo_letras === 'CA') && (account.moneda === '$' || account.moneda === 'u$s') && account.n.length > 3)
+        const pages: any[] = getPageItems(validAccounts)
+        dispatch(add(pages))
+      })
   }, [])
 
   return (
@@ -21,8 +28,8 @@ export default function home() {
       <main className='accounts'>
         <p className='accounts__description'>Consulta de saldo</p>
         <h1 className='accounts__title'>Seleccione la cuenta a consultar</h1>
-        {accounts.length > 0 ? (
-          <Paginator accounts={accounts} />
+        {allPages.length > 0 ? (
+          <Paginator />
         ) : (
           <span className="loader"></span>
         )

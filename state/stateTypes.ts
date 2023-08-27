@@ -4,6 +4,4 @@ export interface Account {
   n: string
 }
 
-export interface RootState {
-  accounts: Account[]
-}
+
