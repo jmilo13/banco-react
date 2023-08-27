@@ -17,6 +17,13 @@ export default function home() {
       .then((response) => {
         const accounts = response?.data?.cuentas
         const validAccounts = accounts.filter((account: Account) => (account.tipo_letras === 'CC' || account.tipo_letras === 'CA') && (account.moneda === '$' || account.moneda === 'u$s') && account.n.length > 3)
+          //Se agrega este ID dado que se encontraron dos cuentas con el mismo numero en la API, por lo cual 
+          //no se puede usar este como identificador para abrir el detalle de cada cuenta
+          .map((account: Account, index: number) => ({
+            ...account,
+            id: index + account.n
+          }));
+        console.log(validAccounts)
         const pages: any[] = getPageItems(validAccounts)
         dispatch(add(pages))
       })

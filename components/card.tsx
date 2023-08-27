@@ -35,7 +35,8 @@ export default function Card(data: Data) {
           background-color: #54b948;
           padding: 30px;
           text-align: center;
-          color: #fff
+          color: #fff;
+          cursor: pointer;
         }
         .card__title {
           font-size: 22px;
