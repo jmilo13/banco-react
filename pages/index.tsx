@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { add } from '../state/reducers'
-import Header from '../components/header'
 
 import axios from 'axios'
 import Paginator from '../components/pagination'
@@ -23,7 +22,7 @@ export default function home() {
             ...account,
             id: index + account.n
           }));
-        console.log(validAccounts)
+
         const pages: any[] = getPageItems(validAccounts)
         dispatch(add(pages))
       })
@@ -31,7 +30,6 @@ export default function home() {
 
   return (
     <>
-      <Header />
       <main className='accounts'>
         <p className='accounts__description'>Consulta de saldo</p>
         <h1 className='accounts__title'>Seleccione la cuenta a consultar</h1>

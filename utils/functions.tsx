@@ -21,3 +21,29 @@ export const getPageItems = (items: []) => {
     return items
   }
 }
+
+export const getAccountType = (type: string) => {
+  switch (type) {
+    case "CC":
+      return "Cuenta Corriente"
+      break
+    case "CA":
+      return "Caja de Ahorro"
+      break
+    default:
+      console.error("No es una cuenta corriente ni caja de ahorro")
+  }
+}
+
+export const getCurrency = (currency: string) => {
+  switch (currency) {
+    case "$":
+      return "Pesos"
+      break
+    case "u$s":
+      return "Dolares"
+      break
+    default:
+      console.error("No es una moneda válida")
+  }
+}

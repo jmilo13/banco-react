@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Account } from '../state/stateTypes'
 import { useSelector } from 'react-redux'
+import Link from 'next/link';
 
 import Card from '../components/card'
 
@@ -20,9 +21,9 @@ export default function Paginator() {
   return (
     <>
       <div className='accounts__list'>
-        {page > 0 && (<button className='buttonCard' onClick={handleClick} data-action="prev"><h3> &lt;&lt; Opciones Anteriores</h3></button>)}
-        {allPages[page].map((account: Account, index: number) => <Card key={"card-" + index} accountType={account.tipo_letras} number={account.n} />)}
-        {page < allPages.length - 1 && (<button className='buttonCard' onClick={handleClick} data-action="next"><h3>Más Opciones &gt;&gt;</h3></button>)}
+        {page > 0 && (<button className='buttonCard' onClick={handleClick} data-action="prev">&lt;&lt; Opciones Anteriores</button>)}
+        {allPages[page].map((account: Account, index: number) => <Link key={account.id} href={`/[id]?page=${page}`} as={"/" + account.id}><Card key={"card-" + index} accountType={account.tipo_letras} number={account.n} /></Link>)}
+        {page < allPages.length - 1 && (<button className='buttonCard' onClick={handleClick} data-action="next">Más Opciones &gt;&gt;</button>)}
       </div>
       <style jsx>
         {`
@@ -47,6 +48,8 @@ export default function Paginator() {
             color: #fff;
             border: none;
             cursor: pointer;
+            font-size: 16px;
+            font-weight: 700;
           }
           `}
       </style>

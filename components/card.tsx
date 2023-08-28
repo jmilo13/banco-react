@@ -1,21 +1,9 @@
 import React from 'react'
-interface Data {
-  accountType: string,
-  number: string
-}
+import { DataCard } from '../state/stateTypes'
+import { getAccountType } from '../utils/functions'
 
-export default function Card(data: Data) {
-  let type: string
-  switch (data.accountType) {
-    case "CC":
-      type = "Cuenta Corriente"
-      break
-    case "CA":
-      type = "Caja de Ahorro"
-      break
-    default:
-      console.error("No es una cuenta corriente ni caja de ahorro")
-  }
+export default function Card(data: DataCard) {
+  let type: string = getAccountType(data.accountType)
 
   return (
     <>
