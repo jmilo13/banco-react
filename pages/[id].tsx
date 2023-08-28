@@ -11,8 +11,10 @@ const AccountPage = () => {
   const pageNumber = parseInt(page as string);
 
   const data = allPages[pageNumber]?.filter(account => account.id == id)
-  const type = getAccountType(data[0].tipo_letras)
-  const currency = getCurrency(data[0].moneda)
+  const type = getAccountType(data !== undefined ? data[0].tipo_letras : "")
+  const currency = getCurrency(data !== undefined ? data[0].moneda : "")
+  const cash = data !== undefined ? data[0].saldo : ""
+  const accountNumber = data !== undefined ? data[0].n : ""
 
 
   console.log(data)
@@ -21,9 +23,9 @@ const AccountPage = () => {
       <p>Consulta de Saldo</p>
       <h2>Este es tu saldo actual</h2>
       <div className='account__info'>
-        <p>Saldo de la cuenta: {data[0].moneda}{data[0].saldo}</p>
+        <p>Saldo de la cuenta: {currency}{cash}</p>
         <p>Tipo de cuenta: {type} en {currency}</p>
-        <p>Número de cuenta: {data[0].n}</p>
+        <p>Número de cuenta: {accountNumber}</p>
       </div>
       <button className='buttonBack'><Link href="/">Salir</Link></button>
       <style jsx>

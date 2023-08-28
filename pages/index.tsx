@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { add } from '../state/reducers'
 
@@ -8,6 +8,7 @@ import { Account } from '../state/stateTypes'
 import { getPageItems } from '../utils/functions'
 
 export default function Home() {
+  const [error, setError] = useState("")
   const dispatch = useDispatch()
   const allPages = useSelector((state: []) => state)
 
@@ -26,6 +27,10 @@ export default function Home() {
         const pages: any[] = getPageItems(validAccounts)
         dispatch(add(pages))
       })
+      .catch((error) => {
+        console.error("La petición falló: " + error.message);
+        setError("La petición falló")
+      });
   }, [])
 
   return (
@@ -35,9 +40,7 @@ export default function Home() {
         <h1 className='accounts__title'>Seleccione la cuenta a consultar</h1>
         {allPages.length > 0 ? (
           <Paginator />
-        ) : (
-          <span className="loader"></span>
-        )
+        ) : (error ? <span className='error'>Lo sentimos, no podemos mostrar los datos. {error}</span> : <span className="loader"></span>)
         }
       </main>
       <style jsx>
@@ -60,6 +63,14 @@ export default function Home() {
           margin: auto;
           box-sizing: border-box;
           animation: rotation 1s linear infinite;
+        }
+        .error {
+          display: block;
+          margin: auto;
+          width:400px;
+          color: #d50000;
+          text-align: center;
+          line-height:1.5;
         }
 
         @keyframes rotation {
