@@ -3,7 +3,7 @@ import { Account } from '../state/stateTypes'
 import { useSelector } from 'react-redux'
 import Link from 'next/link';
 
-import Card from '../components/card'
+import Card from './Card'
 
 export default function Paginator() {
   const [page, setPage] = useState(0)

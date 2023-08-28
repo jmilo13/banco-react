@@ -3,11 +3,11 @@ import { useSelector, useDispatch } from 'react-redux'
 import { add } from '../state/reducers'
 
 import axios from 'axios'
-import Paginator from '../components/pagination'
+import Paginator from '../components/Pagination'
 import { Account } from '../state/stateTypes'
 import { getPageItems } from '../utils/functions'
 
-export default function home() {
+export default function Home() {
   const dispatch = useDispatch()
   const allPages = useSelector((state: []) => state)
 
