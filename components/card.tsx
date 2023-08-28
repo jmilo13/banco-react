@@ -2,6 +2,7 @@ import React from 'react'
 import { DataCard } from '../state/stateTypes'
 import { getAccountType } from '../utils/functions'
 
+
 export default function Card(data: DataCard) {
   let type: string = getAccountType(data.accountType)
 

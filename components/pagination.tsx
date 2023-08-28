@@ -2,8 +2,7 @@ import React, { useState } from 'react'
 import { Account } from '../state/stateTypes'
 import { useSelector } from 'react-redux'
 import Link from 'next/link';
-
-import Card from './Card'
+import Card from './card'
 
 export default function Paginator() {
   const [page, setPage] = useState(0)

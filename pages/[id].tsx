@@ -4,13 +4,13 @@ import { useSelector } from 'react-redux'
 import { Account } from '../state/stateTypes'
 import { getAccountType, getCurrency } from '../utils/functions'
 
-const ItemPage = () => {
+const AccountPage = () => {
   const router = useRouter();
   const allPages = useSelector((state: Account[][]) => state)
   const { id, page } = router.query;
   const pageNumber = parseInt(page as string);
 
-  const data = allPages[pageNumber].filter(account => account.id == id)
+  const data = allPages[pageNumber]?.filter(account => account.id == id)
   const type = getAccountType(data[0].tipo_letras)
   const currency = getCurrency(data[0].moneda)
 
@@ -63,4 +63,4 @@ const ItemPage = () => {
   );
 };
 
-export default ItemPage;
+export default AccountPage;
