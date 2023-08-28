@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Card from './card'
 
 export default function Paginator() {
+  //Controla la paginación
   const [page, setPage] = useState(0)
   const allPages = useSelector((state: Account[][]) => state)
 
@@ -20,9 +21,19 @@ export default function Paginator() {
   return (
     <>
       <div className='accounts__list'>
-        {page > 0 && (<button className='buttonCard' onClick={handleClick} data-action="prev">&lt;&lt; Opciones Anteriores</button>)}
-        {allPages[page].map((account: Account, index: number) => <Link key={account.id} href={`/[id]?page=${page}`} as={"/" + account.id}><Card key={"card-" + index} accountType={account.tipo_letras} number={account.n} /></Link>)}
-        {page < allPages.length - 1 && (<button className='buttonCard' onClick={handleClick} data-action="next">Más Opciones &gt;&gt;</button>)}
+        {page > 0 &&
+          (<button className='buttonCard' onClick={handleClick} data-action="prev">&lt;&lt; Opciones Anteriores</button>)}
+        {allPages[page].map((account: Account, index: number) => {
+          return (
+            //Pasa por parametro en la url la paginacion actual para faciliotar el filtrado en el estado
+            <Link key={account.id} href={`/[id]?page=${page}`} as={"/" + account.id}>
+              <Card key={"card-" + index} accountType={account.tipo_letras} number={account.n} />
+            </Link>
+          )
+        }
+        )}
+        {page < allPages.length - 1 &&
+          (<button className='buttonCard' onClick={handleClick} data-action="next">Más Opciones &gt;&gt;</button>)}
       </div>
       <style jsx>
         {`

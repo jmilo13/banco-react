@@ -8,6 +8,7 @@ import { Account } from '../state/stateTypes'
 import { getPageItems } from '../utils/functions'
 
 export default function Home() {
+  //Para el manejo de error en la peticion d elos datos
   const [error, setError] = useState("")
   const dispatch = useDispatch()
   const allPages = useSelector((state: []) => state)
@@ -16,6 +17,7 @@ export default function Home() {
     axios.get(process.env.NEXT_PUBLIC_API)
       .then((response) => {
         const accounts = response?.data?.cuentas
+        //Filtra unicamente las Cuentas corrientes, de ahorro y que esten en pesos y dolares
         const validAccounts = accounts?.filter((account: Account) => (account.tipo_letras === 'CC' || account.tipo_letras === 'CA') && (account.moneda === '$' || account.moneda === 'u$s') && account.n.length > 3)
           //Se agrega este ID dado que se encontraron dos cuentas con el mismo numero en la API, por lo cual 
           //no se puede usar este como identificador para abrir el detalle de cada cuenta
@@ -24,6 +26,7 @@ export default function Home() {
             id: index + account.n
           }));
 
+        //Setea en el estado las paginas organizadas teniendo en cuenta los botones de paginacion
         const pages: any[] = getPageItems(validAccounts)
         dispatch(add(pages))
       })
